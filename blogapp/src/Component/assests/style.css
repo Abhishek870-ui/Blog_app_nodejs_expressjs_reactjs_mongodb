@@ -1,0 +1,70 @@
+/* Header file css start here */
+.navbar-item{
+    text-decoration: none;
+    color: antiquewhite;
+    margin: 10px;
+}
+
+/* Header file css ends here */
+
+/* register file css start here */
+.registrationform{
+    background: linear-gradient(to left bottom,#A770EF,#CF8BF3,#FDB99B);
+    width: 100%;
+}
+#registerform{
+    width: 100%;
+    margin-top: 10px;
+    margin: 5%;
+    margin-bottom: 10px;
+}
+#registerlogoimage{
+    width: 100%;
+}
+#registerlogoimage img{
+    width: 100%;
+    height: 100%;
+    float: left;
+    border-radius: 20px;
+
+}
+.registrationformuserdetails{
+    background: linear-gradient(to left bottom,#FFAFBD,#ffc3a0);
+    padding: 5%;
+
+    border-radius: 20px;
+
+}
+.registrationformuserdetails label{
+    color: black;
+    font-weight: bold;
+    float: left;
+}
+.registrationformuserdetails label span{
+    color: red;
+    font-weight: bold;
+}
+.registrationformuserdetails input{
+    border-radius: 20px;
+    background-color: transparent;
+    border: 2px solid black;
+    width: 100%;
+}
+.registrationformuserdetails input::placeholder{
+    text-align: center;
+    color: gray;
+    font-weight: bold;
+}
+.registrationformuserdetails input[type = radio]{
+    display: inline-block;
+    width: 5%;
+    margin: 5%;
+}
+.errormessage{
+    color: red;
+    font-weight: bold;
+}
+#selectImage{
+    width: 35%;
+    margin: 10%;
+}
