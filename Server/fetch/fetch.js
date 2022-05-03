@@ -13,15 +13,15 @@ var router = express.Router()
 let url = require("../url")
 
 //create rest api
-router.get("/",(req,res) =>{
+router.get("/authuser",(req,res) =>{
     mcl.connect(url,(err,conn)=>{
         if(err)
         {
             console.log("Errorin connection :-",err)
         }
         else{
-            let db = conn.db("nodedb")
-            db.collection("products").find().toArray((err,array)=>{
+            let db = conn.db("blog")
+            db.collection("users").find().toArray((err,array)=>{
                 if(err)
                 {
                     console.log("Error while fetching data :- ",err)
