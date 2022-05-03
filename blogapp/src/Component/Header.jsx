@@ -1,6 +1,8 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 const Header = () => {
+  const URL = window.location.pathname;
+
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -11,35 +13,74 @@ const Header = () => {
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
-            <NavLink
-              className="navbar-item"
-              to="/"
-              exact
-            >
-              Home
-            </NavLink>
-            {/* <li className="nav-item active">
+            {URL === "/register" ? <span>
+              <NavLink
+                className="navbar-item"
+                to="/"
+                exact
+              >
+                Home
+              </NavLink>
+
+
+              <NavLink
+                className="navbar-item"
+                to="/Login"
+                exact
+              >
+                LogIn
+              </NavLink> </span> : <span>{URL === "/Login" ? <span><NavLink
+                className="navbar-item"
+                to="/"
+                exact
+              >
+                Home
+              </NavLink>
+                {/* <li className="nav-item active">
               <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
             </li> */}
 
-            <NavLink
-              className="navbar-item"
-              to="/register"
-              exact
-            >
-              Sign Up
-            </NavLink>
-            {/* <li className="nav-item">
+                <NavLink
+                  className="navbar-item"
+                  to="/register"
+                  exact
+                >
+                  Sign Up
+                </NavLink>
+                {/* <li className="nav-item">
               <a className="nav-link" href="#">SignUp</a>
             </li> */}
 
-            <NavLink
-              className="navbar-item"
-              to="/Login"
-              exact
-            >
-              LogIn
-            </NavLink>
+              </span> : <span><NavLink
+                className="navbar-item"
+                to="/"
+                exact
+              >
+                Home
+              </NavLink>
+                {/* <li className="nav-item active">
+              <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
+            </li> */}
+
+                <NavLink
+                  className="navbar-item"
+                  to="/register"
+                  exact
+                >
+                  Sign Up
+                </NavLink>
+                {/* <li className="nav-item">
+              <a className="nav-link" href="#">SignUp</a>
+            </li> */}
+
+                <NavLink
+                  className="navbar-item"
+                  to="/Login"
+                  exact
+                >
+                  LogIn
+                </NavLink></span>}</span>}
+
             {/* <li className="nav-item">
 
               <a className="nav-link " href="#">LogIn</a>
