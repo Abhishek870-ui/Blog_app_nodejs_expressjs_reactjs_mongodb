@@ -164,18 +164,18 @@ function Register() {
 
        
 
-        let ext = image.split('.');
-        if (ext[1] === "jpg" || ext[1] === 'jpeg' || ext[1] === 'png' || ext[1] === 'gif' || ext[2] === "jpg" || ext[2] === 'jpeg' || ext[2] === 'png' || ext[2] === 'gif') {
-            console.log("image passsed")
-        }
-        else {
-            error = {
-                field_id: "image",
-                message: "* only image should be here"
-            }
+        // let ext = image.split('.');
+        // if (ext[1] === "jpg" || ext[1] === 'jpeg' || ext[1] === 'png' || ext[1] === 'gif' || ext[2] === "jpg" || ext[2] === 'jpeg' || ext[2] === 'png' || ext[2] === 'gif') {
+        //     console.log("image passsed")
+        // }
+        // else {
+        //     error = {
+        //         field_id: "image",
+        //         message: "* only image should be here"
+        //     }
 
-            return error;
-        }
+        //     return error;
+        // }
 
 
 
@@ -198,6 +198,7 @@ function Register() {
 
     const submit = (e) => {
         // e.preventDefault();
+        e.preventDefault();
         setErrormessage(null)
 
         let error = validateForm();
@@ -210,7 +211,6 @@ function Register() {
                 text: 'Please fill all the input fields!',
                 timer: 5000
             })
-            return;
         }
 
         else {
@@ -223,9 +223,16 @@ function Register() {
             formData.append('gender', data.gender);
             formData.append('password', data.password);
 
-            console.log("this is data : ", data)
-            Axios.post("http://localhost:8080/insert/registerUser", formData).then(res => {
-                message.success('This is a success message');
+            console.log("this is data : ", data);
+            try {
+ 
+            Axios.post("http://localhost:8080/insert/registerUser", formData)
+            .then(res => {
+
+                alert("Data submitted successfully")
+               console.log("response",res.data);
+               message.success('This is a success message');
+
             })
                 .catch(err => {
 
@@ -238,7 +245,13 @@ function Register() {
 
 
                     console.log("error has occured while insert new member : " + err)
+                    alert("error in post")
                 })
+            } catch (err) {
+                console.log(err.message);
+              }
+
+
         }
 
     }
@@ -387,7 +400,7 @@ function Register() {
 
                                 <button type="button "
                                     
-                                    onClick={(e) => submit(e)}
+                                    onClick={submit}
                                     className="sub btn btn-primary">Create Account</button>
 
                             </div>

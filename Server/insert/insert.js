@@ -30,7 +30,6 @@ let upload = multer({ storage: storage })
 // insert user details
 router.post("/registerUser", upload.single('image'), (req, res) => {
     let obj = req.body;
-    console.log(obj)
     let fname = obj.fname;
     let lname = obj.lname;
     let email = obj.email;
@@ -43,10 +42,6 @@ router.post("/registerUser", upload.single('image'), (req, res) => {
         image = '../uploads' + '/' + req.file.filename;
 
     }
-
-    
-    console.log(req.file)
-
     let userdata = {
         "fname": fname,
         "lname": lname,
@@ -56,24 +51,24 @@ router.post("/registerUser", upload.single('image'), (req, res) => {
         "password": password,
         "token": token,
         "image": image,
-        "created_at" : moment().format()
-        
+        "created_at": moment().format(),
+        "updated_at":Date.now()
+
     }
     mcl.connect(url, (err, conn) => {
         if (err) {
-            console.log("Error in connection :- ", err)
-
+            throw err;
         }
         else {
-            console.log("connected");
             let db = conn.db("blog")
             db.collection("users").insertOne(userdata, (err) => {
                 if (err) {
-                    console.log("insert error", err);
+                    throw err;
                 }
                 else {
-                    console.log("data inserted ");
-                    res.json({ "insert": "success" })
+
+                    
+                    res.send({ "insert": "success" })
                 }
             })
         }

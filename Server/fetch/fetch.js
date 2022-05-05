@@ -31,27 +31,30 @@ router.post("/authuser", (req, res) => {
       
    //compare with database
    mcl.connect(url, (err, conn) => {
-       if (err)
-           console.log("Error in connection:- ", err)
+       if (err) throw err;
        else {
            let db = conn.db("blog")
            db.collection("users").findOne(user,(err, array) => {
                if(array.length != 0)
            {
                //var d = new Date();
-               let myToken = {
-                   token : token(user,JSON.stringify(new Date())) 
-                 }
-               db.collection("users").insertOne(myToken, (err) => {
+               let myToken = token(user,JSON.stringify(new Date())) 
+                 
+            //      let updatedata = {
+            //              _id : array._id,
+            //              token:myToken
+            //      }
+               db.collection("users").updateOne({'_id':array._id}, {$set: {token : myToken}}, (err,result) => {
                 if (err) {
-                    console.log("insert error", err);
+                    res.send({ "insert": "error" })
+
                 }
                 else {
-                    console.log("data inserted ");
-                    res.json({ "insert": "success" })
+                    res.send({'auth':'success', 'token':myToken})
+
+
                 }
             })              
-               res.send({'auth':'success', 'token':myToken})
              
            }
            else

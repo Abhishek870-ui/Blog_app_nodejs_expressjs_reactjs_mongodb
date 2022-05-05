@@ -16,13 +16,13 @@ app.use(bodyparser.urlencoded({extended : false}))
 app.use(cors())
 let port = process.env.PORT || 8080
 //import fetch insert update delete modules
-// var fetch = require("./fetch/fetch")
+var fetch = require("./fetch/fetch")
 var insert = require("./insert/insert")
 // var update = require("./update/update")
 // var remove = require("./delete/delete")
 
 //use above module
-// app.use("/fetch",fetch)
+app.use("/fetch",fetch)
 app.use("/insert",insert)
 // app.use("/update",update)
 // app.use("/delete",remove)
