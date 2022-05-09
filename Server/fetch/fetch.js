@@ -21,50 +21,55 @@ let token = require("../token/token")
 
 //login api
 router.post("/authuser", (req, res) => {
-    let user={
-       email : req.body.email,
-       password : req.body.password   
+    let user = {
+        email: req.body.email,
+        password: req.body.password
     }
-       // let uname = req.body.uname
-       // let upwd = req.body.upwd   
-  
-      
-   //compare with database
-   mcl.connect(url, (err, conn) => {
-       if (err) throw err;
-       else {
-           let db = conn.db("blog")
-           db.collection("users").findOne(user,(err, array) => {
-               if(array.length != 0)
-           {
-               //var d = new Date();
-               let myToken = token(user,JSON.stringify(new Date())) 
-                 
-            //      let updatedata = {
-            //              _id : array._id,
-            //              token:myToken
-            //      }
-               db.collection("users").updateOne({'_id':array._id}, {$set: {token : myToken}}, (err,result) => {
-                if (err) {
-                    res.send({ "insert": "error" })
+    // let uname = req.body.uname
+    // let upwd = req.body.upwd   
+console.log(req.body);
 
+    //compare with database
+    mcl.connect(url, (err, conn) => {
+        if (err) throw err;
+        else {
+            let db = conn.db("blog")
+            db.collection("users").findOne(user, (err, array) => {
+                console.log(user);
+                console.log(array);
+                if (err) {
+                    throw err
                 }
                 else {
-                    res.send({'auth':'success', 'token':myToken})
+                    if (array.length != 0) {
+                        //var d = new Date();
+                        let myToken = token(user, JSON.stringify(new Date()))
+
+                        //      let updatedata = {
+                        //              _id : array._id,
+                        //              token:myToken
+                        //      }
+                        db.collection("users").updateOne({ '_id': array._id }, { $set: { token: myToken } }, (err, result) => {
+                            if (err) {
+                                res.send({ "insert": "error" })
+
+                            }
+                            else {
+                                res.send({ 'auth': 'success', 'token': myToken, 'userDetails' : array })
 
 
+                            }
+                        })
+
+                    }
+                    else {
+                        res.send({ 'auth': 'failed' })
+                    }
                 }
-            })              
-             
-           }
-           else
-           {
-               res.send({'auth':'failed'})
-           }
-       })
-       }
-   })
-   
+            })
+        }
+    })
+
 })
 
 //export router

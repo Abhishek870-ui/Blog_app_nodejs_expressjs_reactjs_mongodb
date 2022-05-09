@@ -1,12 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from './Header'
 import registerlogo from './Image/wallpaperflare.com_wallpaper.jpg'
 import Axios from 'axios'
 import Swal from 'sweetalert2';
-import  {message}  from 'antd';
 import 'antd/dist/antd.css';
+import Footer from './Footer';
+import { Alert, message } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+
   const [data, setData] = useState({
     email: '',
     password: '',
@@ -17,8 +20,9 @@ function Login() {
     password: '',
   })
 
-  let {  email,  password } = data;
+  let { email, password } = data;
 
+  const navigate = useNavigate();
 
   // this function is used to validate the input fields
 
@@ -42,7 +46,7 @@ function Login() {
       return error;
     }
 
- 
+
 
     if (password === '') {
       error = {
@@ -83,31 +87,42 @@ function Login() {
     }
 
     else {
-      let formData = new FormData();
-      formData.append('email', data.email);
-      formData.append('password', data.password);
+      const userdetails = {
+        email: data.email,
+        password: data.password
+      }
 
-      // console.log("this is data : ", data)
-      // Axios.post("http://localhost:8080/insert/registerUser", formData).then(res => {
-      //   message.success('This is a success message');
-      // })
-      //   .catch(err => {
+      console.log(userdetails);
+      Axios.post("http://localhost:8080/fetch/authuser", userdetails)
+        .then(res => {
+          message.success('Login Successfully');
+          localStorage.clear();
+          localStorage.setItem('auth', res.data.auth)
+          localStorage.setItem('token', res.data.token)
+          localStorage.setItem('First_Name', res.data.userDetails.fname)
+          localStorage.setItem('Last_Name', res.data.userDetails.lname)
+          localStorage.setItem('image', res.data.userDetails.image)
 
-      //     Swal.fire({
-      //       icon: 'error',
-      //       title: 'Oops...',
-      //       text: 'Something went wrong!',
-      //       timer: 5000
-      //     })
+          navigate("/")
+
+          console.log(res.data)
+
+        })
+        .catch(err => {
+
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+            timer: 5000
+          })
 
 
-      //     console.log("error has occured while insert new member : " + err)
-      //   })
+          console.log("error has occured while login new member : " + err)
+        })
     }
 
   }
-
-
 
 
   return (
@@ -125,7 +140,7 @@ function Login() {
             </div>
             <div className="col-6 m-0 p-0">
               <div encType="multipart/form-data" className='loginformuserdetails'>
-             
+
                 <label>Email <span>*</span></label>
 
                 <input type="text"
@@ -145,7 +160,7 @@ function Login() {
                   id='password'
                   onChange={(e) => update(e, 'password')}
                   name="password"
-                  //  value={data.phone}
+                  value={data.phone}
                   placeholder="Enter password here"
                   className="pasword"
                 />
@@ -165,6 +180,7 @@ function Login() {
       </div>
 
 
+      <Footer />
 
 
     </>

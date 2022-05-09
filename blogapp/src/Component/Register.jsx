@@ -3,8 +3,10 @@ import Header from './Header'
 import registerlogo from './Image/registerlogo.jpg'
 import Axios from 'axios'
 import Swal from 'sweetalert2';
-import  {message}  from 'antd';
+import { message } from 'antd';
 import 'antd/dist/antd.css';
+import Footer from './Footer';
+import { useNavigate } from 'react-router-dom';
 function Register() {
     const [data, setData] = useState({
         fname: '',
@@ -34,6 +36,7 @@ function Register() {
 
     let { fname, lname, email, phone, gender, password, cpassword, image } = data;
     const [fileimage, setFileimage] = useState(null);
+    const navigate = useNavigate();
 
 
     // this function is used to validate the input fields
@@ -151,7 +154,7 @@ function Register() {
             }
             return error;
         }
-        else{
+        else {
             if (cpassword != password) {
                 error = {
                     field_id: "cpassword",
@@ -162,7 +165,7 @@ function Register() {
         }
 
 
-       
+
 
         // let ext = image.split('.');
         // if (ext[1] === "jpg" || ext[1] === 'jpeg' || ext[1] === 'png' || ext[1] === 'gif' || ext[2] === "jpg" || ext[2] === 'jpeg' || ext[2] === 'png' || ext[2] === 'gif') {
@@ -193,12 +196,11 @@ function Register() {
         if (e.target.files) {
             setFileimage(e.target.files[0])
         }
-       
+
     }
 
     const submit = (e) => {
         // e.preventDefault();
-        e.preventDefault();
         setErrormessage(null)
 
         let error = validateForm();
@@ -215,7 +217,9 @@ function Register() {
 
         else {
             let formData = new FormData();
-            formData.append('image', document.querySelector('#image').files[0]);
+            console.log(data.image)
+            let image = data.image
+            formData.append('image',  document.querySelector('#image').files[0]);
             formData.append('fname', data.fname);
             formData.append('lname', data.lname);
             formData.append('email', data.email);
@@ -224,16 +228,20 @@ function Register() {
             formData.append('password', data.password);
 
             console.log("this is data : ", data);
-            try {
- 
-            Axios.post("http://localhost:8080/insert/registerUser", formData)
-            .then(res => {
 
-                alert("Data submitted successfully")
-               console.log("response",res.data);
-               message.success('This is a success message');
 
+            Axios.post("http://localhost:8080/insert/registerUser", formData, {
+                headers: {
+                  'Content-Type': 'multipart/form-data'
+                }
             })
+                .then(res => {
+                    console.log(res.data.data)
+                    let userdetails = res.data.data
+                    message.success('Account created successfully.');
+                    navigate("/login")
+
+                })
                 .catch(err => {
 
                     Swal.fire({
@@ -245,14 +253,10 @@ function Register() {
 
 
                     console.log("error has occured while insert new member : " + err)
-                    alert("error in post")
                 })
-            } catch (err) {
-                console.log(err.message);
-              }
-
 
         }
+
 
     }
 
@@ -273,7 +277,8 @@ function Register() {
                             <img src={registerlogo}></img>
                         </div>
                         <div className="col-6 m-0 p-0">
-                            <div encType="multipart/form-data" className='registrationformuserdetails'>
+                            <div method='post' encType="multipart/form-data" className='registrationformuserdetails'>
+
                                 <label>First Name <span>*</span></label>
 
                                 <input type="text"
@@ -399,9 +404,10 @@ function Register() {
 
 
                                 <button type="button "
-                                    
+
                                     onClick={submit}
                                     className="sub btn btn-primary">Create Account</button>
+
 
                             </div>
                         </div>
@@ -409,7 +415,7 @@ function Register() {
                 </div>
             </div>
 
-
+            <Footer />
 
 
         </>

@@ -38,6 +38,7 @@ router.post("/registerUser", upload.single('image'), (req, res) => {
     let password = obj.password;
     let token = obj.token;
     let image = ""
+    console.log(JSON.stringify(req.file))
     if (req.file) {
         image = '../uploads' + '/' + req.file.filename;
 
@@ -52,9 +53,10 @@ router.post("/registerUser", upload.single('image'), (req, res) => {
         "token": token,
         "image": image,
         "created_at": moment().format(),
-        "updated_at":Date.now()
+        "updated_at":moment().format()
 
     }
+    console.log(userdata);
     mcl.connect(url, (err, conn) => {
         if (err) {
             throw err;
@@ -68,7 +70,7 @@ router.post("/registerUser", upload.single('image'), (req, res) => {
                 else {
 
                     
-                    res.send({ "insert": "success" })
+                    res.send({ "insert": "success","data":userdata })
                 }
             })
         }

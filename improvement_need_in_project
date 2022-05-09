@@ -1,0 +1,11 @@
+
+4. show user name and image on home page after login.
+5. show user name and token in cookies and local storage after login
+6. remove user  token after logout in the database and name and token from cokkies and local storage.
+7. create the logout api
+8. if user login then show only logout in the account.
+9. solved the error while insert the new menber data then while upload image it reload the page.
+10. after reload the page delete the localstorage means clear the storage.
+
+
+10. read about session for cookies set and 
